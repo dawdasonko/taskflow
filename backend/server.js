@@ -8,7 +8,18 @@ const adminRoutes = require("./routes/adminRoutes");
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://taskflow-gold-psi.vercel.app"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+app.options("*", cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
