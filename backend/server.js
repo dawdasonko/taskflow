@@ -12,14 +12,14 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://taskflow-gold-psi.vercel.app"
+      "https://taskflow-gold-psi.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 
-app.options("*", cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
