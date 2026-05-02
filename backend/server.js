@@ -22,9 +22,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({
-    message: "TaskFlow API is running successfully",
-  });
+  res.json({ message: "TaskFlow API is running successfully with PostgreSQL" });
 });
 
 app.use("/api/auth", authRoutes);

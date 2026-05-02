@@ -6,11 +6,11 @@ const router = express.Router();
 
 router.get("/users", protect, adminOnly, async (req, res) => {
   try {
-    const [users] = await pool.query(
+    const result = await pool.query(
       "SELECT id, name, email, role, created_at FROM users ORDER BY created_at DESC"
     );
 
-    res.json(users);
+    res.json(result.rows);
   } catch (error) {
     console.error("Admin Users Error:", error);
     res.status(500).json({ message: "Server error while fetching users" });
@@ -19,7 +19,7 @@ router.get("/users", protect, adminOnly, async (req, res) => {
 
 router.get("/tasks", protect, adminOnly, async (req, res) => {
   try {
-    const [tasks] = await pool.query(`
+    const result = await pool.query(`
       SELECT 
         tasks.id,
         tasks.title,
@@ -33,7 +33,7 @@ router.get("/tasks", protect, adminOnly, async (req, res) => {
       ORDER BY tasks.created_at DESC
     `);
 
-    res.json(tasks);
+    res.json(result.rows);
   } catch (error) {
     console.error("Admin Tasks Error:", error);
     res.status(500).json({ message: "Server error while fetching all tasks" });
@@ -44,9 +44,12 @@ router.delete("/tasks/:id", protect, adminOnly, async (req, res) => {
   try {
     const { id } = req.params;
 
-    const [result] = await pool.query("DELETE FROM tasks WHERE id = ?", [id]);
+    const result = await pool.query(
+      "DELETE FROM tasks WHERE id = $1 RETURNING id",
+      [id]
+    );
 
-    if (result.affectedRows === 0) {
+    if (result.rows.length === 0) {
       return res.status(404).json({ message: "Task not found" });
     }
 
