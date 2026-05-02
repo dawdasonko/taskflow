@@ -1,0 +1,8 @@
+django
+djangorestframework
+psycopg2-binary
+django-cors-headers
+PyJWT
+bcrypt
+gunicorn
+dj-database-url
