@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+backend-django/venv/
+__pycache__/
+*.pyc

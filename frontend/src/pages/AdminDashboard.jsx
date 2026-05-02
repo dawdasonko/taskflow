@@ -31,73 +31,100 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="app-page">
-      <nav className="navbar">
+    <div className="app-bg min-vh-100">
+      <nav className="navbar navbar-expand-lg bg-white shadow-sm px-4">
         <div>
-          <h2>Admin Dashboard</h2>
-          <p>Manage users and all tasks</p>
+          <h3 className="fw-bold text-primary mb-0">Admin Dashboard</h3>
+          <small className="text-muted">Manage users and all tasks</small>
         </div>
 
-        <button onClick={logout}>Logout</button>
+        <button className="btn btn-outline-danger ms-auto" onClick={logout}>
+          Logout
+        </button>
       </nav>
 
-      <main className="container">
-        <section className="panel">
-          <h2>All Users</h2>
+      <main className="container py-4">
+        <div className="card border-0 shadow-sm rounded-4 mb-4">
+          <div className="card-body p-4">
+            <h4 className="fw-bold mb-3">All Users</h4>
 
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-              </tr>
-            </thead>
+            <div className="table-responsive">
+              <table className="table table-hover align-middle">
+                <thead className="table-light">
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                  </tr>
+                </thead>
 
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{user.role}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
+                <tbody>
+                  {users.map((user) => (
+                    <tr key={user.id}>
+                      <td>{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>
+                        <span
+                          className={`badge ${
+                            user.role === "admin"
+                              ? "text-bg-primary"
+                              : "text-bg-secondary"
+                          }`}
+                        >
+                          {user.role}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 
-        <section className="panel">
-          <h2>All Tasks</h2>
+        <div className="card border-0 shadow-sm rounded-4">
+          <div className="card-body p-4">
+            <h4 className="fw-bold mb-3">All Tasks</h4>
 
-          {tasks.length === 0 ? (
-            <p>No tasks available.</p>
-          ) : (
-            <div className="task-list">
-              {tasks.map((task) => (
-                <div className="task-card admin-task-card" key={task.id}>
-                  <div>
-                    <h3>{task.title}</h3>
-                    <p>{task.description}</p>
-                    <small>
-                      By: {task.user_name} ({task.user_email})
-                    </small>
-                    <br />
-                    <span className={task.status}>{task.status}</span>
-                  </div>
+            {tasks.length === 0 ? (
+              <div className="alert alert-info mb-0">No tasks available.</div>
+            ) : (
+              <div className="d-grid gap-3">
+                {tasks.map((task) => (
+                  <div
+                    className="border rounded-4 p-3 bg-light d-flex justify-content-between align-items-start gap-3 task-responsive"
+                    key={task.id}
+                  >
+                    <div>
+                      <h5 className="fw-bold mb-1">{task.title}</h5>
+                      <p className="text-muted mb-2">{task.description}</p>
+                      <small className="text-muted d-block mb-2">
+                        By: {task.user_name} ({task.user_email})
+                      </small>
 
-                  <div className="actions">
+                      <span
+                        className={`badge ${
+                          task.status === "completed"
+                            ? "text-bg-success"
+                            : "text-bg-warning"
+                        }`}
+                      >
+                        {task.status}
+                      </span>
+                    </div>
+
                     <button
-                      className="danger"
+                      className="btn btn-sm btn-outline-danger"
                       onClick={() => deleteTask(task.id)}
                     >
                       Delete
                     </button>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </main>
     </div>
   );

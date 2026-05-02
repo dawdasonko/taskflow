@@ -16,7 +16,6 @@ export default function Login() {
 
     try {
       const res = await API.post("/auth/login", form);
-
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
@@ -31,40 +30,52 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <h1>TaskFlow</h1>
-        <p>Login to manage your tasks</p>
+    <div className="auth-bg">
+      <div className="card shadow-lg border-0 auth-box">
+        <div className="card-body p-4 p-md-5">
+          <h1 className="text-center fw-bold text-primary mb-2">TaskFlow</h1>
+          <p className="text-center text-muted mb-4">Login to manage your tasks</p>
 
-        {message && <div className="alert">{message}</div>}
+          {message && <div className="alert alert-danger">{message}</div>}
 
-        <form onSubmit={handleLogin}>
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={handleChange}
-          />
+          <form onSubmit={handleLogin}>
+            <div className="mb-3">
+              <label className="form-label">Email</label>
+              <input
+                name="email"
+                type="email"
+                className="form-control form-control-lg"
+                placeholder="Enter email"
+                value={form.email}
+                onChange={handleChange}
+              />
+            </div>
 
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-          />
+            <div className="mb-3">
+              <label className="form-label">Password</label>
+              <input
+                name="password"
+                type="password"
+                className="form-control form-control-lg"
+                placeholder="Enter password"
+                value={form.password}
+                onChange={handleChange}
+              />
+            </div>
 
-          <button type="submit">Login</button>
-        </form>
+            <button type="submit" className="btn btn-primary btn-lg w-100">
+              Login
+            </button>
+          </form>
 
-        <span>
-          No account? <Link to="/register">Register</Link>
-        </span>
+          <p className="text-center mt-4 mb-2">
+            No account? <Link to="/register">Register</Link>
+          </p>
 
-        <small>
-          Admin: admin@taskflow.com / admin123
-        </small>
+          <p className="text-center small text-muted mb-0">
+            Admin: admin@taskflow.com / admin123
+          </p>
+        </div>
       </div>
     </div>
   );
